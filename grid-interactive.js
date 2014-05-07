@@ -61,22 +61,15 @@ d3.json("./grid-1x.json", function(json) {
 	function update_grid() {
 		// update extant nodes w/ new data
 		rows = d3.select("svg").selectAll(".row")
-			.data(dataset)
-				.attr({
-					id: "updated row"
-				});
+			.data(dataset);
+
 		var cells = rows.selectAll("g")
-			.data(function(d, i) {return d;})
-				.attr({
-					id: "updated cell"
-				});
+			.data(function(d, i) {return d;});
+
 		cells.select("text")
 			.text(function(d, i) {
 				return d;
 			})
-				.attr({
-					fill: "orange"
-				});
 	};
 
 	function sort_2d_array(a2) {

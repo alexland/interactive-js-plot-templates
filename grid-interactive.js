@@ -56,20 +56,20 @@ d3.json("./grid-1x.json", function(json) {
 		.on("click", sortGrid);
 
 	d3.select("#randomGrid")
-		.on("click", randomGrid)
+		.on("click", randomGrid);
 
 	function update_grid() {
 		// update extant nodes w/ new data
 		rows = d3.select("svg").selectAll(".row")
 			.data(dataset)
-			.attr({
-				id: "updated row"
-			});
+				.attr({
+					id: "updated row"
+				});
 		var cells = rows.selectAll("g")
 			.data(function(d, i) {return d;})
-			.attr({
-				id: "updated cell"
-			});
+				.attr({
+					id: "updated cell"
+				});
 		cells.select("text")
 			.text(function(d, i) {
 				return d;
@@ -77,18 +77,6 @@ d3.json("./grid-1x.json", function(json) {
 				.attr({
 					fill: "orange"
 				});
-		// var cells = rows.selectAll("cells")
-		// 	.data(function(d, i) {return d;})
-		// 		.attr({
-		// 			fill: "#E9D66B"
-		// 		});
-
-	// 	cells.selectAll("text")
-	// 		.text(function(d, i) {return d;})
-	// 			.attr({
-	// 				"font-size": "1em",
-	// 				fill: "gray"
-	// 			});
 	};
 
 	function sort_2d_array(a2) {
@@ -98,7 +86,6 @@ d3.json("./grid-1x.json", function(json) {
 			return y - x;
 		});
 		return rollUp(a, rowLen);
-
 	};
 
 	function unsort_2d_array(a2) {
@@ -117,21 +104,23 @@ d3.json("./grid-1x.json", function(json) {
 				temp = array1d[cn];
 				array1d[cn] = array1d[idx];
 				array1d[idx] = temp;
-			};
+			}
 			return array1d;
-		};
+		}
 		return rollUp(shuffle(a), rowLen);
-	};
+	}
 
+	// event handlers for UI widgets
 	function sortGrid() {
 		dataset = sort_2d_array(dataset);
 		update_grid();
-	};
+	}
 
 	function randomGrid() {
 		dataset = unsort_2d_array(dataset);
 		update_grid();
 	}
+
 
 	// utility functions
 
@@ -140,21 +129,18 @@ d3.json("./grid-1x.json", function(json) {
 		var a = array2d.reduce(function(a, b) {
 				return a.concat(b);
 			});
-			return a
-	};
+			return a;
+	}
 
 	// creates a 2d array from a flat array
 	function rollUp(array1d, rowLen) {
-		var rowLen = 4,
-				st = 0,
-				a2x = [];
+		var st = 0,
+		a2x = [];
 		for (nd=rowLen; nd<array1d.length+1; nd+=rowLen) {
 			a2x.push(array1d.slice(st, nd));
 			st += rowLen;
-		};
+		}
 		return a2x;
-	};
-
-
+	}
 
 });

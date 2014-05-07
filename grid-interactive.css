@@ -1,0 +1,75 @@
+
+body {
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-weight: 400;
+	color: white;
+	margin: 0;
+}
+
+:visited {
+	color: #555;
+}
+
+.wrapper {
+
+}
+
+svg {
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.grid {
+
+}
+
+g.dev.labels {
+	fill: gray;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+g.cat.labels {
+	fill: gray;
+	font-size: 13px;
+	font-weight: 500;
+	text-anchor: end;
+}
+
+g.labels text:hover {
+	fill: red;
+	cursor: pointer;
+}
+
+.leftPanel {
+
+}
+
+.rightPanel {
+
+}
+
+.rigthPanelTop {
+	margin-left: 100px;
+	margin-top: 50px;
+	/*width: 200px;
+	height: 200px;
+	background-color: blue;*/
+}
+
+#widgets {
+	margin: 0px auto;
+	background-color: orange;
+}
+
+#sortGrid {
+	margin-left: 100px;
+}
+
+#randomGrid {
+	margin-left: 10px;
+}

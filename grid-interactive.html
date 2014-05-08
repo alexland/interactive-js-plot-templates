@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html>
+ <meta charset='utf-8'>
 	<head>
+		<link rel="stylesheet" href="grid-interactive.css" />
+		<link rel="stylesheet"
+		href="jqueryui/development-bundle/demos/demos.css" />
+	href="jqueryui/development-bundle/themes/base/hot-sneaks/jquery.ui.all.css" />
+	<link rel="stylesheet" href="../demos.css">
+		<script src="jquery-2.1.1.min.js"></script>
+
+		<script src="jqueryui/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="jqueryui/development-bundle/ui/jquery.ui.widget.js"></script>
+		<script src="jqueryui/development-bundle/ui/jquery.ui.button.js"></script>
+
 		<script src="d3.min.js"></script>
-		<link rel="stylesheet" href="grid-heat.css"/>
+
 	</head>
 
 	<body>
 		<div class="wrapper">
+			<div class="leftPanel">
+			</div>
+			<div class="rightPanel">
+				<div class="rightPanelTop">
 
-			<div class="rightPanelTop">
-				<div id="widgets">
-					<button id="sortGrid">sort</button>
+					<div id="widgets">
 
-					<button id="randomGrid">random order</button>
+						<button id="btn1">sort</button>
+
+						<button id="btn2">shuffle</button>
+
+
+					</div>
+
 				</div>
 			</div>
 		</div>
-		<script src="grid-interactive.js"></script>
+		<script src="grid-interactive-0.js"></script>
 	</body>
 </html>

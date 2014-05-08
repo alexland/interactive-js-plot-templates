@@ -6,11 +6,8 @@ body {
 	margin: 0;
 }
 
-:visited {
-	color: #555;
-}
-
 .wrapper {
+	/*margin-top: 25px;*/
 
 }
 
@@ -29,13 +26,13 @@ svg {
 
 g.dev.labels {
 	fill: gray;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 500;
 }
 
 g.cat.labels {
 	fill: gray;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 500;
 	text-anchor: end;
 }
@@ -66,10 +63,10 @@ g.labels text:hover {
 	background-color: orange;
 }
 
-#sortGrid {
+#btn1 {
 	margin-left: 100px;
 }
 
-#randomGrid {
+#btn2 {
 	margin-left: 10px;
 }

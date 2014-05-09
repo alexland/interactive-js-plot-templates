@@ -1,24 +1,28 @@
 
-d3.json("./grid-1x.json", function(json) {
+d3.json("./data-01.json", function(json) {
 
 	dataset = json;
 
-	var CELL_WIDTH = 50,
-	CELL_HEIGHT = 50,
-	CELL_SPACING = 1.5,
-	CELL_WIDTH_EFF = 51.5,
-	CELL_HEIGHT_EFF = 51.5;
+	var SVG_HEIGHT = 500,
+		SVG_WIDTH = 680,
+		CELL_WIDTH = 35,
+		CELL_HEIGHT = 35,
+		CELL_SPACER = 1.5,
+		TW = 8,
+		TH = 10,
+		CELL_WIDTH_EFF = CELL_WIDTH + CELL_SPACER,
+		CELL_HEIGHT_EFF = CELL_HEIGHT + CELL_SPACER,
+		TEXT_OFFSET_W = Math.floor((CELL_WIDTH/2) - TW/2) ,
+		TEXT_OFFSET_H = Math.floor((CELL_HEIGHT/2) + TH/2);
 
 	var svg = d3.select(".wrapper")
 		.append("svg")
-			.attr("height", 500)
-			.attr("width", 660)
 			.attr({
-				height: 500,
-				width: 500,
-				transform: "translate(100, 130)",
+				height: SVG_HEIGHT,
+				width: SVG_WIDTH,
+				transform: "translate(25, 50)",
 				class: "grid"
-			});
+	});
 
 	var rows = svg.selectAll("g")
 		.data(dataset)
@@ -30,7 +34,7 @@ d3.json("./grid-1x.json", function(json) {
 		.data(function(d, i) {return d;})
 		.enter()
 		.append("g")
-		.attr("class", "cell");
+			.attr("class", "cell");
 
 	cells.append("rect")
 		.attr({
@@ -46,8 +50,13 @@ d3.json("./grid-1x.json", function(json) {
 			return d;
 		})
 			.attr({
-				x: function(d, i, j) {return (i * CELL_WIDTH_EFF) + 18;},
-				y: function(d, i, j) {return (j * CELL_HEIGHT_EFF) + 28;},
+				x: function(d, i, j) {
+					return (i * CELL_WIDTH_EFF) + TEXT_OFFSET_W;
+				},
+				y: function(d, i, j) {
+					return (j * CELL_HEIGHT_EFF) + TEXT_OFFSET_H;
+				},
+				"font-size": 10,
 				fill: "#848482",
 				class: "label"
 			});
@@ -69,15 +78,15 @@ d3.json("./grid-1x.json", function(json) {
 		cells.select("text")
 			.text(function(d, i) {
 				return d;
-			})
+		})
 	};
 
 	function sort_2d_array(a2) {
 		var rowLen = a2[0].length,
 			a = flatten(a2);
-		a.sort(function(x, y) {
-			return y - x;
-		});
+			a.sort(function(x, y) {
+				return y - x;
+			});
 		return rollUp(a, rowLen);
 	};
 
@@ -115,20 +124,20 @@ d3.json("./grid-1x.json", function(json) {
 	}
 
 
-	// utility functions
+	// ----------utility functions ------------- //
 
 	// flattens a 2d array
 	function flatten(array2d) {
 		var a = array2d.reduce(function(a, b) {
-				return a.concat(b);
-			});
-			return a;
+			return a.concat(b);
+		});
+		return a;
 	}
 
 	// creates a 2d array from a flat array
 	function rollUp(array1d, rowLen) {
 		var st = 0,
-		a2x = [];
+			a2x = [];
 		for (nd=rowLen; nd<array1d.length+1; nd+=rowLen) {
 			a2x.push(array1d.slice(st, nd));
 			st += rowLen;

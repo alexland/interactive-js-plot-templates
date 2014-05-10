@@ -17,7 +17,7 @@ $(function() {
 			TEXT_OFFSET_W = Math.floor((CELL_WIDTH/2) - TW/2) ,
 			TEXT_OFFSET_H = Math.floor((CELL_HEIGHT/2) + TH/2);
 
-		var svg = d3.select(".col-md-8")
+		var svg = d3.select(".plotWin")
 			.append("svg")
 				.attr({
 					height: SVG_HEIGHT,
@@ -64,9 +64,9 @@ $(function() {
 				});
 
 
-		$("#btn1").button().on("click", sortGrid);
+		$("#btn1").on("click", sortGrid);
 
-		$("#btn2").button().click(randomGrid);
+		$("#btn2").click(randomGrid);
 
 		$( "#slider" ).slider({
 			value: 45,

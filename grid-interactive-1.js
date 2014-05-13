@@ -63,7 +63,6 @@ $(function() {
 					class: "label"
 				});
 
-
 		$("#btn1").on("click", sortGrid);
 
 		$("#btn2").click(randomGrid);

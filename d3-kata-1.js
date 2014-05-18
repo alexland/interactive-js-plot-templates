@@ -18,18 +18,7 @@ $(function() {
 		//-------------- data extents -----------------//
 
 		var xExtent = extent(dataset, 'x'),
-			yExtent = extent(dataset, 'y1');
-
-		var xe = d3.extent(dataset, function(d, i) {
-			return d.x;
-		});
-
-		var ye = d3.extent(dataset, function(d, i) {
-			return d.y1;
-		});
-
-		console.log("my x extent: ", xExtent);
-		console.log("d3 x extent: ", xe);
+			yExtent = extent(dataset, 'y');
 
 		//-------------- scales -----------------//
 
@@ -42,7 +31,6 @@ $(function() {
 			.domain(yExtent)
 			.range([CHART_HEIGHT, MARGIN_T])
 			.nice();
-
 
 		//------------------- axes ------------------//
 
@@ -58,8 +46,7 @@ $(function() {
 			.ticks(10)
 			.tickSize(-CHART_WIDTH);
 
-
-		//--------------- create the main svg window ---------------#
+		//----------- create the main svg window -----------//
 
 		var svg = d3.select(".rightPanel")
 			.append("svg")
@@ -95,13 +82,13 @@ $(function() {
 			.enter().append("circle")
 				.attr({
 					r: 4.,
-					"fill": "#007FFF",
+					"fill": "#FF8C00",
 					"class": "datapoint",
 					cx: function(d, i) {
 						return xScale(d.x);
 					},
 					cy: function(d, i) {
-						return yScale(d.y1);
+						return yScale(d.y);
 					}
 				})
 
@@ -160,6 +147,7 @@ $(function() {
 					return d.y;
 			});
 			yScale.domain(yExtent);
+			console.log(dataset1.slice(-1));
 			updatePlot(dataset1);
 		}
 
@@ -186,7 +174,7 @@ $(function() {
 			updatePlot();
 		}
 
-		//------------- utility functions ------------- //
+		//------------- utility functions -------------//
 
 		function extent(D, pn) {
 			dLen = D.length;
@@ -197,18 +185,38 @@ $(function() {
 			tx.sort(function(a, b) {
 				return a - b;
 			})
-			res = [tx.slice(0, 1), tx.slice(-1)];
+			res = [tx.slice(0, 1)[0], tx.slice(-1)[0]];
 			if (res[0] <= 0) {
 				if (res[0] == 0) {
-					res[0] = res[1]/10;
+					res[0] = -res[1]/10;
 				}
 				else
 					res[0] *= 1.1;
 			}
 			else
-				res[1] *= 1.1;
+				res[0] /= 1.1;
+
+			if (res[1] <= 0) {
+				if (res[1] == 0) {
+					res[1] += -res[0]/10
+				}
+				else
+					res[1] *= res[1]
+			}
+			else
+				res[1] *= 1.1
 			return res;
 		}
+
+		//---------------------- init ------------------------//
+		var dataset1 = [];
+			for (var i=0; i<dataset.length; i++) {
+				row = dataset[i];
+				dataset1.push({"x": row.x, "y": row.y})
+			};
+
+		updatePlot(dataset1);
+
 
 	});
 

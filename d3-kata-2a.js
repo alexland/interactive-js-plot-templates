@@ -2,7 +2,7 @@
 $(function () {
 
 	function genData() {
-		np = 1 + Math.floor(15*Math.random());
+		np = 3 + Math.floor(15*Math.random());
 		return d3.range(np);
 	};
 
@@ -30,16 +30,16 @@ $(function () {
 		.range([0, SVG_WIDTH - MARGIN_L])
 		.domain([0, 10]);
 
-	var xAxis = d3.svg.axis()
-		.orient("bottom")
-		.scale(xScale);
-
 	svg.append("g")
 		.attr({
 			"class": "xAxis",
 		})
-		.attr("transform", "translate(0,25)")
+		.attr("transform", "translate(0,10)")
 
+	var xAxis = d3.svg.axis()
+		.orient("bottom")
+		.tickFormat(d3.format("d"))
+		.scale(xScale);
 
 	//----------------- user interaction -----------------//
 
@@ -94,7 +94,7 @@ $(function () {
 		cells
 			.attr("class", "update")
 			.transition()
-			.duration(500)
+			.duration(250)
 			.attr({
 				x: function(d, i, j) {return i * CELL_WIDTH_EFF;},
 				width: CELL_WIDTH,
@@ -111,14 +111,14 @@ $(function () {
 					y: -75,
 					width: CELL_WIDTH,
 					height: CELL_HEIGHT,
-					fill: "#0E7C61",      // green for new cells
+					fill: "#44D7A8",      // green for new cells
 					"fill-opacity": 1e-6,
 				})
 			cells.data(dataset, function(d) {return d;})
 				.transition()
 					.delay(500)
 					.ease("cubic-in-out")
-					.duration(750)
+					.duration(500)
 						.attr({
 							x: function(d, i, j) {
 								return i * CELL_WIDTH_EFF;
@@ -134,9 +134,9 @@ $(function () {
 					fill: "#CC6666"    // red for exiting cells
 				})
 			.transition()
-				.delay(750)
+				.delay(500)
 				.ease("cubic-in-out")
-				.duration(750)
+				.duration(500)
 				.attr({
 					x: 0,
 					y: -75,
@@ -144,12 +144,13 @@ $(function () {
 				})
 				.remove();
 		// update the axis
-		xScale.domain([0, dataset.length]);
 		rhi = (dataset.length*CELL_WIDTH) + 25;
+		xScale.domain([0, dataset.length]);
 		xScale.range([0, rhi]);
-		console.log(xScale.range());
 
 		svg.select(".xAxis")
+			.transition()
+			.duration(500)
 			.call(xAxis);
 
 	}

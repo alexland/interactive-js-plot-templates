@@ -8,6 +8,7 @@ line, path {
 .xAxis {
 	font-size: 10px;
 	font-family: sans-serif;
+	shape-rendering: crispEdges;
 }
 
 .tick {
@@ -15,9 +16,10 @@ line, path {
 	stroke: none;
 }
 
-text {
+.tick > text {
+	font-style: normal;
+	font-size: 11px;
 	font-style: bold;
-	font-size: 10px;
 	font-family: "san serif";
 }
 
@@ -77,6 +79,8 @@ tr {
 
 #val {
 	text-align: right;
+	background: #91A3B0;
+	color: #FFFFFF;
 }
 
 #name {

@@ -1,5 +1,5 @@
 
-$(function () {
+$(function() {
 
 	function genData() {
 		np = 3 + Math.floor(15*Math.random());
@@ -113,8 +113,9 @@ $(function () {
 					height: CELL_HEIGHT,
 					fill: "#44D7A8",      // green for new cells
 					"fill-opacity": 1e-6,
-				})
-			cells.data(dataset, function(d) {return d;})
+				});
+			cells
+				.data(dataset, function(d) {return d;})
 				.transition()
 					.delay(500)
 					.ease("cubic-in-out")

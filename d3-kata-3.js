@@ -32,13 +32,13 @@ $(function() {
 
 	var xScale = d3.scale.ordinal()
 		.domain(d3.range(dataset.length))
-		.rangeRoundBands([ML, W + ML], 0.05);
+		.rangeRoundBands([0, W], 0.05);
 
 	var yScale = d3.scale.linear()
 		.domain([0, d3.max(dataset, function(d) {
 			return d.value;
 		})])
-		.range([MT, H + MT]);
+		.range([0, H]);
 
 	var key = function(d) {
 		return d.key;
@@ -46,10 +46,8 @@ $(function() {
 
 	var svg = d3.select("body")
 		.append("svg")
-		.attr("width", W + ML + MR)
-		.attr("height", H + MT + MB)
-		.append("g")
-			.attr("transform", "translate(" + ML + "," + MT + ")");
+		.attr("width", W)
+		.attr("height", H)
 
 	svg.selectAll("rect")
 		.data(dataset, key)
@@ -132,8 +130,8 @@ $(function() {
 		bars.exit()
 			.transition()
 			.duration(500)
-			.attr("y", H)
-			.attr("x", xScale.rangeBand())
+				.attr("x", xScale.rangeBand())
+				.attr("y", H)
 			.remove();
 
 		// svg.selectAll("text")

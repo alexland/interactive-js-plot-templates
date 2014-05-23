@@ -89,32 +89,32 @@ $(function() {
 		var newNumber = Math.round(Math.random() * maxValue);
 		var lastKeyValue = dataset[dataset.length - 1].key;
 
-		dataset.shift();
-		// dataset.unshift({
-		// 	key: 1,
-		// 	value: newNumber
-		// });
-		console.log(dataset.length);
+		dataset.pop();
+		dataset.unshift({
+			key: lastKeyValue + 1,
+			value: newNumber
+		})
+
 		xScale.domain(d3.range(dataset.length));
 		yScale.domain([0, d3.max(dataset, function(d) {
 			return d.value;
 		})]);
+
 		var bars = svg.selectAll("rect")
 			.data(dataset, key);
 		// ENTER
 		bars.enter()
 			.append("rect")
-			.attr("x", 0)
-			.attr("y", function(d) {
-				return H - yScale(d.value);
-			})
-			.attr("width", xScale.rangeBand())
-			.attr("height", function(d) {
-				return yScale(d.value);
-			})
-			.attr("fill", "steelblue")
+				.attr("x", 0)
+				.attr("y", function(d) {
+					return H - yScale(d.value);
+				})
+				.attr("width", xScale.rangeBand())
+				.attr("height", H)
+				.attr("fill", "steelblue")
 		// UPDATE
 		bars.transition()
+			.delay(500)
 			.duration(500)
 				.attr("x", function(d, i) {
 					return xScale(i);
@@ -130,7 +130,7 @@ $(function() {
 		bars.exit()
 			.transition()
 			.duration(500)
-				.attr("x", xScale.rangeBand())
+				.attr("x", W-MR)
 				.attr("y", H)
 			.remove();
 

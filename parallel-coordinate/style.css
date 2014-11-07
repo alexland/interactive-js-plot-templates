@@ -1,0 +1,46 @@
+
+body {
+	font-family: "Helvetica";
+	font-size: 0.8em;
+}
+
+#widgets {
+	margin-top: 25px;
+}
+
+svg {
+	font: 10px Helvetica;
+	fill: #848482;
+}
+
+.data_lines path {
+	fill: none;
+	stroke-width: 1.2;
+	stroke-opacity: 1.0;
+/*	stroke: steelblue;*/
+}
+
+.data_line {
+	stroke-width: 1.3;
+	stroke-opacity: 1;
+	
+}
+
+.brush .extent {
+	fill-opacity: .3;
+	stroke: #fff;
+	shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+	fill: none;
+	stroke: gray;
+	stroke-width: 2.2;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+/*	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;*/
+}
+

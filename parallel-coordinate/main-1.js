@@ -9,9 +9,17 @@ $(function() {
 		};
 	};
 
+	function uq(arr) {
+		var q = arr.filter(function(itm, i, arr) {
+			return arr.indexOf(itm) === i;
+		});
+		return q;
+	};
+
 	var colors = [
-		'#2E5894',
+		'#C46210',
 		'#525FC4',
+		'#C4C111',
 		'#525FC4',
 		'#C4C111',
 		'#C4112A'
@@ -19,7 +27,7 @@ $(function() {
 
 	var margin = {top: 30, right: 10, bottom: 10, left: 10},
 		width = 700 - margin.left - margin.right,
-		height = 340 - margin.top - margin.bottom;
+		height = 300 - margin.top - margin.bottom;
 
 	var xScale = d3.scale.ordinal()
 					.rangePoints([0, width], 1),
@@ -30,8 +38,7 @@ $(function() {
 	var line = d3.svg.line(),
 		axis = d3.svg.axis()
 			.orient("left")
-			.ticks(5),
-		data_lines;
+			.ticks(5)
 
 	var plot_win_1 = d3.select("#gr2").append("svg")
 		.attr("width", width + margin.left + margin.right)
@@ -42,10 +49,9 @@ $(function() {
 
 	d3.json("./iris.json", function(err, json) {
 		data_all = json;
-		console.log("size of data loaded on init:", data_all.length);
 		// extract the list of dimensions and create a scale for each
 		xScale.domain(dimensions = d3.keys(data_all.last()).filter(function(d) {
-			return d != "class" && (yScale[d] = d3.scale.linear()
+			return d != "label" && (yScale[d] = d3.scale.linear()
 				.domain(d3.extent(data_all, function(p) {
 					return +p[d];
 				}))
@@ -54,10 +60,9 @@ $(function() {
 
 		var classLabels = [];
 		data_all.forEach(function(q) {
-			classLabels.push(q.class);
+			classLabels.push(q.label);
 		});
 
-		// add data_lines for focus
 		var data_lines = plot_win_1.append("g")
 			.attr("class", "data_lines")
 			.selectAll("path")
@@ -66,8 +71,21 @@ $(function() {
 						.attr("d", create_path)
 						.attr("class", "data_line")
 						.attr("stroke", function(d, i) {
-							return classLabel_to_color(classLabels[i]);
+							switch (+d.label) {
+								case 0:
+									return '#525FC4';
+
+								case 1:
+									return '#C4112A';
+
+								case 2:
+									return '#C4C111';
+							}
+
 						});
+						// .attr("stroke", function(d, i) {
+						// 	return classLabel_to_color(classLabels[i]);
+						// });
 
 		// add a group element for each dimension
 		var dim = plot_win_1.selectAll(".dimension")
@@ -81,17 +99,22 @@ $(function() {
 
 					.call(d3.behavior.drag()
 						.on("dragstart", function(d) {
+
 							dragging[d] = this.__origin__ = xScale(d);
 						})
 						.on("drag", function(d) {
-							dragging[d] = Math.min(width, Math.max(
-								0, this.__origin__ += d3.event.dx));
+
+							dragging[d] = Math.min(width,
+								Math.max(0, this.__origin__ += d3.event.dx));
 							data_lines.attr("d", create_path);
+
 							dimensions.sort(function(a, b) {
 								return position(a) - position(b);
 							});
+
 							xScale.domain(dimensions);
-							g.attr("transform", function(d) {
+
+							dim.attr("transform", function(d) {
 								return "translate(" + position(d) + ")";
 							})
 						})
@@ -172,30 +195,26 @@ $(function() {
 
 		function eh1() {
 			dataset = data_all.filter(function(x) {
-				return x.class === '1';
+				return +x.label === 0;
 			});
-			console.log("class I: ", dataset.length);
 			update_plot(dataset);
 		}
 
 		function eh2() {
 			dataset = data_all.filter(function(x) {
-				return x.class === '2';
+				return +x.label === 1;
 			});
-			console.log("class II: ", dataset.length);
 			update_plot(dataset);
 		}
 
 		function eh3() {
 			dataset = data_all.filter(function(x) {
-				return x.class === '3';
+				return +x.label === 2;
 			});
-			console.log("class III: ", dataset.length);
 			update_plot(dataset);
 		}
 
 		function eh4() {
-			console.log("data loaded on btn 4: ", data_all.length);
 			update_plot(data_all);
 		}
 
@@ -203,9 +222,10 @@ $(function() {
 		//---------- main fn to update data view ------------//
 
 		function update_plot(dataset) {
-
 			//JOIN: join new data w/ extant elements, if any
-			var data_lines = plot_win_1.select(".data_lines").selectAll("path")
+			var data_lines = plot_win_1
+				.select(".data_lines")
+				.selectAll("path")
 				.data(dataset);
 			console.log("len of data_lines selection: ", data_lines[0].length);
 
@@ -213,7 +233,20 @@ $(function() {
 			data_lines
 				.attr("d", create_path)
 				.attr("id", "updated_lines")
-				.attr("class", "data_line");
+				.attr("class", "data_line")
+				.attr("stroke", function(d, i) {
+					switch (+d.label) {
+						case 0:
+							return '#525FC4';
+
+						case 1:
+							return '#C4112A';
+
+						case 2:
+							return '#C4C111';
+					}
+
+				});
 
 			// ENTER + APPEND (add new nodes)
 			data_lines
@@ -221,8 +254,8 @@ $(function() {
 				.append("path")
 					.attr("d", create_path)
 					.attr("id", "new_lines")
-					.attr("class", "data_line")
-					.attr("stroke", "#2E5894");
+					.attr("class", "data_line");
+
 			data_lines
 				.data(dataset)
 
